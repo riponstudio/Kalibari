@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101b2d">
-<title>Kalibari Knight Football Tournament</title>
+<title>Knight Football Tournament</title>
 <style>
 :root{--navy:#101b2d;--navy2:#182943;--panel:#20334e;--gold:#f4c451;--bg:#f3f5f8;--ink:#172338;--muted:#718096;--line:#e5eaf0;--green:#16865b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
@@ -256,12 +256,55 @@ hr{border-top-color:#34384f!important}
 @media(max-width:650px){.moment-item{height:125px}.moments-section{margin-top:22px}.moments-heading h3{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.moments-track{animation:none}}
 
+
+/* Compact Bengali tournament ticker — replaces the old management title header */
+.ticker-header{
+  height:54px!important;min-height:54px;padding:0!important;
+  display:flex;align-items:center;overflow:hidden;
+  border-bottom:2px solid var(--gold);position:relative;
+}
+.ticker-header:after{display:none!important}
+.tournament-ticker{width:100%;overflow:hidden;white-space:nowrap}
+.ticker-track{
+  display:flex;width:max-content;align-items:center;
+  animation:tickerLeftToRight 34s linear infinite;
+  will-change:transform;
+}
+.ticker-track span{
+  display:block;flex:0 0 auto;padding-right:32px;
+  color:#f7d77f;font-size:clamp(13px,1.7vw,17px);
+  font-weight:850;line-height:1.2;
+}
+.ticker-header:hover .ticker-track{animation-play-state:paused}
+@keyframes tickerLeftToRight{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+#venue[readonly]{background:#f0f3f7;color:#53657b;font-weight:700;cursor:not-allowed}
+.moment-item{cursor:zoom-in}.moment-item img{cursor:zoom-in}
+.moment-lightbox{position:fixed;inset:0;z-index:99999;background:rgba(3,8,18,.95);display:none;align-items:center;justify-content:center;padding:68px 16px 22px}
+.moment-lightbox.open{display:flex}
+.moment-lightbox-image-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.moment-lightbox-image{max-width:100%;max-height:100%;object-fit:contain;transform:scale(1);transform-origin:center;user-select:none;-webkit-user-drag:none}
+.moment-lightbox-toolbar{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #ffffff30;border-radius:14px;background:#111b2ddd;backdrop-filter:blur(10px)}
+.moment-lightbox-toolbar button{min-width:38px;height:36px;border:1px solid #ffffff25;border-radius:9px;background:#263b58;color:#fff;font-size:18px;font-weight:800;cursor:pointer;padding:0 10px}
+.moment-lightbox-zoom{color:#fff;min-width:52px;text-align:center;font-size:12px;font-weight:800}
+.moment-lightbox-close{position:absolute;right:14px;top:13px;width:40px!important;font-size:25px!important;background:#8f2930!important}
+@media(max-width:650px){.ticker-header{height:48px!important;min-height:48px}.ticker-track span{font-size:12px}.moment-lightbox{padding:66px 8px 12px}.moment-lightbox-toolbar{top:10px;left:10px;transform:none;gap:5px;padding:6px}.moment-lightbox-toolbar button{min-width:34px;height:34px}.moment-lightbox-close{right:10px;top:10px}}
+
 </style>
 </head>
 <body>
-<header><div class="top"><div class="brand"><div class="crest">K</div><div><h1>KALIBARI KNIGHT FOOTBALL</h1><div class="sub">TOURNAMENT MANAGEMENT</div></div></div></div></header>
+<header class="ticker-header" aria-label="Tournament announcement">
+  <div class="tournament-ticker">
+    <div class="ticker-track">
+      <span>কালিবাড়ি মিনিবাড় নাইট ফুটবল টুর্নামেন্ট ২০২৬, সিজন -২　 ✦　 ১ম পুরষ্কার - ১টি ফ্রিজ　 ✦　 ২য় পুরষ্কার - ১টি স্মার্ট টিভি　 ✦　 আয়োজনে কালিবাড়ি নাইট রাইডার্স।　 ✦　</span>
+      <span aria-hidden="true">কালিবাড়ি মিনিবাড় নাইট ফুটবল টুর্নামেন্ট ২০২৬, সিজন -২　 ✦　 ১ম পুরষ্কার - ১টি ফ্রিজ　 ✦　 ২য় পুরষ্কার - ১টি স্মার্ট টিভি　 ✦　 আয়োজনে কালিবাড়ি নাইট রাইডার্স।　 ✦　</span>
+    </div>
+  </div>
+</header>
 <main>
-<section class="hero"><div class="kicker">BALASHI IT - OFFICIAL TOURNAMENT HUB</div><h2>Kalibari Knight Football Tournament, S-2</h2><p>Fixtures · Teams · Results · Tournament Updates</p></section>
+<section class="hero"><div class="kicker">OFFICIAL TOURNAMENT HUB</div><h2>Knight Football Tournament</h2><p>Fixtures · Teams · Results · Tournament Updates</p></section>
 <div class="stats">
  <div class="stat"><span>Total Teams</span><b id="teamCount">0</b></div><div class="stat"><span>Groups</span><b id="groupCount">0</b></div><div class="stat"><span>Matches</span><b id="matchCount">0</b></div><div class="stat"><span>Completed</span><b id="completedCount">0</b></div>
 </div>
@@ -283,6 +326,9 @@ hr{border-top-color:#34384f!important}
 </section>
 
 
+<div id="momentLightbox" class="moment-lightbox" role="dialog" aria-modal="true" aria-label="Match photo viewer" onclick="if(event.target===this)closeMomentLightbox()">
+<div class="moment-lightbox-toolbar"><button type="button" onclick="changeMomentZoom(-0.25)" aria-label="Zoom out">−</button><span id="momentZoomLabel" class="moment-lightbox-zoom">100%</span><button type="button" onclick="changeMomentZoom(0.25)" aria-label="Zoom in">＋</button><button type="button" onclick="resetMomentZoom()">Fit</button><button type="button" class="moment-lightbox-close" onclick="closeMomentLightbox()" aria-label="Close">×</button></div>
+<div id="momentLightboxWrap" class="moment-lightbox-image-wrap"><img id="momentLightboxImage" class="moment-lightbox-image" alt="Enlarged tournament match moment"></div></div>
 <section id="adminPanel" class="panel">
  <div class="section-head"><h3>Admin Workspace</h3><button class="secondary" onclick="toggleAdmin()">Close</button></div>
  <div class="notice"><b>Connected mode:</b> Public visitors can view tournament data. Only the authenticated admin account registered in app_admins can make changes.</div>
@@ -303,12 +349,12 @@ hr{border-top-color:#34384f!important}
  <div class="actions"><button id="saveTeamButton" class="primary" type="button" onclick="saveTeamForm()">＋ Add Team</button><button id="cancelTeamEdit" class="secondary hidden" type="button" onclick="cancelTeamEdit()">Cancel Edit</button></div>
  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
  <h3>Add Fixture</h3><div class="formgrid">
-  <div class="field"><label>Group</label><select id="matchGroup"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+  <div class="field"><label>Group</label><select id="matchGroup"><optgroup label="Group Stage"><option value="A">Group A</option><option value="B">Group B</option><option value="C">Group C</option><option value="D">Group D</option><option value="E">Group E</option><option value="F">Group F</option><option value="G">Group G</option><option value="H">Group H</option></optgroup><optgroup label="Knockout Stage"><option value="Round of 16">Round of 16</option><option value="Quarter Final">Quarter Final</option><option value="Semi-final">Semi-final</option><option value="Final">Final</option></optgroup></select></div>
   <div class="field"><label>Round / Match label</label><input id="round" placeholder="Group Match 1"></div>
   <div class="field"><label>Home team</label><select id="homeTeam"></select></div>
   <div class="field"><label>Away team</label><select id="awayTeam"></select></div>
   <div class="field"><label>Date & time</label><input id="matchDate" type="datetime-local"></div>
-  <div class="field"><label>Venue</label><input id="venue" placeholder="Tournament ground"></div>
+  <div class="field"><label>Venue</label><input id="venue" value="Bridge Road Kalibari Govt. Primary School" readonly aria-readonly="true"></div>
  </div><button class="primary" onclick="addMatch()">＋ Create Fixture</button>
  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
  <h3>Update Match Score</h3><div class="formgrid">
@@ -335,7 +381,7 @@ hr{border-top-color:#34384f!important}
  <div class="admin-section"><div class="admin-title"><h3>Manage Announcements</h3><span class="admin-chip">ADMIN ONLY</span></div><div id="manageNotices"><p class="hint">Loading announcements...</p></div></div>
  <div class="actions"><button class="danger" onclick="resetDemo()">Reset sample data</button></div></div>
 </section>
-<footer>Powered by · BALASHI IT</footer>
+<footer>Knight Football Tournament · Official information portal</footer>
 </main>
 <!-- Admin panel visibility is handled before loading Supabase, so a CDN issue cannot hide the login form. -->
 <script>
@@ -594,7 +640,39 @@ async function saveTeamForm(){
  }catch(error){alert(error.message||String(error));}
  finally{if(button){button.disabled=false;button.textContent=editingTeamId?"Save Team Changes":"＋ Add Team";}}
 }
-async function addMatch(){if(!isAdmin)return alert("Admin login required.");let h=document.getElementById("homeTeam").value,a=document.getElementById("awayTeam").value;if(!h||!a||h===a)return alert("Choose two different teams");const {error}=await supabaseApi.from("matches").insert({group_code:document.getElementById("matchGroup").value,round_label:document.getElementById("round").value||"Group Match",home_team_id:h,away_team_id:a,match_date:dhakaDateTimeToISO(document.getElementById("matchDate").value),venue:document.getElementById("venue").value||null,home_score:0,away_score:0,status:"upcoming"});if(error)return alert(error.message);await save();}
+const KNOCKOUT_STAGES=["Round of 16","Quarter Final","Semi-final","Final"];
+const FIXED_VENUE="Bridge Road Kalibari Govt. Primary School";
+function getQualifiedTeamsForStage(stage){
+ if(!KNOCKOUT_STAGES.includes(stage))return db.teams.filter(t=>t.group===stage);
+ const index=KNOCKOUT_STAGES.indexOf(stage);
+ if(index===0){
+  const qualified=[];
+  [...new Set(db.teams.map(t=>t.group))].sort().forEach(group=>standings(group).slice(0,2).forEach(row=>{const t=team(row.id);if(t)qualified.push(t);}));
+  return qualified;
+ }
+ const previous=KNOCKOUT_STAGES[index-1],winners=[];
+ db.matches.filter(m=>m.group===previous&&m.status==="completed").forEach(m=>{
+  if(Number(m.hs)>Number(m.as)){const t=team(m.home);if(t)winners.push(t);}
+  else if(Number(m.as)>Number(m.hs)){const t=team(m.away);if(t)winners.push(t);}
+ });
+ return winners;
+}
+function updateFixtureTeamOptions(){
+ const stage=document.getElementById("matchGroup")?.value||"A";
+ const home=document.getElementById("homeTeam"),away=document.getElementById("awayTeam");
+ if(!home||!away)return;
+ const oldHome=home.value,oldAway=away.value,available=getQualifiedTeamsForStage(stage);
+ const opts='<option value="">Select team</option>'+available.map(t=>`<option value="${esc(t.id)}">${esc(t.name)}${KNOCKOUT_STAGES.includes(stage)?"":" (Group "+esc(t.group)+")"}</option>`).join("");
+ home.innerHTML=opts;away.innerHTML=opts;
+ if(available.some(t=>t.id===oldHome))home.value=oldHome;
+ if(available.some(t=>t.id===oldAway))away.value=oldAway;
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ document.getElementById("matchGroup")?.addEventListener("change",updateFixtureTeamOptions);
+ const v=document.getElementById("venue");if(v)v.value=FIXED_VENUE;
+});
+
+async function addMatch(){if(!isAdmin)return alert("Admin login required.");let h=document.getElementById("homeTeam").value,a=document.getElementById("awayTeam").value;if(!h||!a||h===a)return alert("Choose two different teams");const {error}=await supabaseApi.from("matches").insert({group_code:document.getElementById("matchGroup").value,round_label:document.getElementById("round").value||"Group Match",home_team_id:h,away_team_id:a,match_date:dhakaDateTimeToISO(document.getElementById("matchDate").value),venue:FIXED_VENUE,home_score:0,away_score:0,status:"upcoming"});if(error)return alert(error.message);await save();}
 async function updateScore(){if(!isAdmin)return alert("Admin login required.");let id=document.getElementById("scoreMatch").value;if(!id)return alert("Create a fixture first");const {error}=await supabaseApi.from("matches").update({home_score:Math.max(0,+document.getElementById("homeScore").value||0),away_score:Math.max(0,+document.getElementById("awayScore").value||0),status:document.getElementById("matchStatus").value}).eq("id",id);if(error)return alert(error.message);await save();}
 async function addNotice(){if(!isAdmin)return alert("Admin login required.");let t=document.getElementById("noticeText").value.trim();if(!t)return;const {error}=await supabaseApi.from("notices").insert({message:t});if(error)return alert(error.message);document.getElementById("noticeText").value="";await save();}
 async function addPlayer(){if(!isAdmin)return alert("Admin login required.");const teamId=document.getElementById("playerTeam").value,name=document.getElementById("playerName").value.trim(),goals=Math.max(0,Number(document.getElementById("playerGoals").value)||0);if(!teamId||!name)return alert("Select a team and enter player name.");const {error}=await supabaseApi.from("team_players").insert({team_id:teamId,player_name:name,goals});if(error)return alert("Player save failed: "+error.message);document.getElementById("playerName").value="";document.getElementById("playerGoals").value="0";await save();}
@@ -625,20 +703,20 @@ async function editTeam(id){
  document.getElementById("teamFormTitle").scrollIntoView({behavior:"smooth",block:"center"});
 }
 async function deleteTeam(id){if(!isAdmin)return alert("Admin login required.");const t=team(id);if(!t||!confirm(`Delete team "${t.name}"? This may fail if fixtures are linked to this team.`))return;const {error}=await supabaseApi.from("teams").delete().eq("id",id);if(error)return alert("Team delete failed: "+error.message);await save();}
-async function editMatch(id){if(!isAdmin)return alert("Admin login required.");const m=db.matches.find(x=>x.id===id);if(!m)return;const round=prompt("Round / match label:",m.round||"");if(round===null)return;const date=prompt("Date & time (YYYY-MM-DDTHH:MM):",m.date?isoToDhakaDateTimeInput(m.date):"");if(date===null)return;const venue=prompt("Venue:",m.venue||"");if(venue===null)return;const hs=prompt("Home score:",m.hs);if(hs===null)return;const as=prompt("Away score:",m.as);if(as===null)return;const status=prompt("Status: upcoming, live, completed",m.status||"upcoming");if(status===null)return;if(!["upcoming","live","completed"].includes(status.trim().toLowerCase()))return alert("Status must be upcoming, live, or completed.");const {error}=await supabaseApi.from("matches").update({round_label:round.trim(),match_date:dhakaDateTimeToISO(date),venue:venue.trim()||null,home_score:Math.max(0,Number(hs)||0),away_score:Math.max(0,Number(as)||0),status:status.trim().toLowerCase()}).eq("id",id);if(error)return alert("Fixture update failed: "+error.message);await save();}
+async function editMatch(id){if(!isAdmin)return alert("Admin login required.");const m=db.matches.find(x=>x.id===id);if(!m)return;const round=prompt("Round / match label:",m.round||"");if(round===null)return;const date=prompt("Date & time (YYYY-MM-DDTHH:MM):",m.date?isoToDhakaDateTimeInput(m.date):"");if(date===null)return;const venue=FIXED_VENUE;const hs=prompt("Home score:",m.hs);if(hs===null)return;const as=prompt("Away score:",m.as);if(as===null)return;const status=prompt("Status: upcoming, live, completed",m.status||"upcoming");if(status===null)return;if(!["upcoming","live","completed"].includes(status.trim().toLowerCase()))return alert("Status must be upcoming, live, or completed.");const {error}=await supabaseApi.from("matches").update({round_label:round.trim(),match_date:dhakaDateTimeToISO(date),venue:FIXED_VENUE,home_score:Math.max(0,Number(hs)||0),away_score:Math.max(0,Number(as)||0),status:status.trim().toLowerCase()}).eq("id",id);if(error)return alert("Fixture update failed: "+error.message);await save();}
 async function deleteMatch(id){if(!isAdmin||!confirm("Delete this fixture permanently?"))return;const {error}=await supabaseApi.from("matches").delete().eq("id",id);if(error)return alert("Fixture delete failed: "+error.message);await save();}
 async function editNotice(id){if(!isAdmin)return alert("Admin login required.");const n=db.notices.find(x=>x.id===id);if(!n)return;const message=prompt("Edit announcement:",n.text);if(message===null)return;if(!message.trim())return alert("Announcement cannot be empty.");const {error}=await supabaseApi.from("notices").update({message:message.trim()}).eq("id",id);if(error)return alert("Announcement update failed: "+error.message);await save();}
 async function deleteNotice(id){if(!isAdmin||!confirm("Delete this announcement permanently?"))return;const {error}=await supabaseApi.from("notices").delete().eq("id",id);if(error)return alert("Announcement delete failed: "+error.message);await save();}
 async function resetDemo(){alert("For safety, bulk reset is disabled in this connected version. Delete records from Supabase Table Editor if required.");}
-function cardMatch(m){let h=team(m.home),a=team(m.away);return `<div class="card" style="margin-bottom:10px"><div class="match"><div><b>${esc(h?.name||"TBD")}</b><br><small>${esc(m.group)} · ${esc(m.round)}</small></div><div style="text-align:center"><div class="score">${m.status==="upcoming"?"VS":`${m.hs} - ${m.as}`}</div><span class="pill">${esc(m.status.toUpperCase())}</span></div><div style="text-align:right"><b>${esc(a?.name||"TBD")}</b><br><small>${esc(m.venue||"Venue TBA")}</small></div></div><div class="hint" style="margin-top:10px">${esc(dateText(m.date))}</div></div>`}
-function toggleTeamPlayers(id){const panel=document.getElementById("team-players-"+id);if(panel)panel.classList.toggle("open");}
+function cardMatch(m){let h=team(m.home),a=team(m.away);return `<div class="card" style="margin-bottom:10px"><div class="match"><div><b>${esc(h?.name||"TBD")}</b><br><small>${KNOCKOUT_STAGES.includes(m.group)?esc(m.group):"Group "+esc(m.group)} · ${esc(m.round)}</small></div><div style="text-align:center"><div class="score">${m.status==="upcoming"?"VS":`${m.hs} - ${m.as}`}</div><span class="pill">${esc(m.status.toUpperCase())}</span></div><div style="text-align:right"><b>${esc(a?.name||"TBD")}</b><br><small>${esc(m.venue||"Venue TBA")}</small></div></div><div class="hint" style="margin-top:10px">${esc(dateText(m.date))}</div></div>`}
+function toggleTeamPlayers(id){const panel=document.getElementById("team-players-"+id);if(!panel)return;const wasOpen=panel.classList.contains("open");document.querySelectorAll("#teamList .team-player-details.open").forEach(el=>el.classList.remove("open"));if(!wasOpen)panel.classList.add("open");}
 function standings(group){let rows=db.teams.filter(t=>t.group===group).map(t=>({id:t.id,name:t.name,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}));db.matches.filter(m=>m.group===group&&m.status==="completed").forEach(m=>{let h=rows.find(x=>x.id===m.home),a=rows.find(x=>x.id===m.away);if(!h||!a)return;h.p++;a.p++;h.gf+=m.hs;h.ga+=m.as;a.gf+=m.as;a.ga+=m.hs;if(m.hs>m.as){h.w++;a.l++;h.pts+=3}else if(m.hs<m.as){a.w++;h.l++;a.pts+=3}else{h.d++;a.d++;h.pts++;a.pts++}});return rows.sort((a,b)=>b.pts-a.pts||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf)}
 function render(){document.getElementById("teamCount").textContent=db.teams.length;document.getElementById("groupCount").textContent=new Set(db.teams.map(t=>t.group)).size;document.getElementById("matchCount").textContent=db.matches.length;document.getElementById("completedCount").textContent=db.matches.filter(m=>m.status==="completed").length;
 let teams=db.teams.map(t=>{const members=db.players.filter(p=>p.team===t.id).sort((a,b)=>a.name.localeCompare(b.name));return `<div class="card team-card" onclick="toggleTeamPlayers('${t.id}')"><div class="team"><div class="badge">⚽</div><div style="flex:1"><b class="team-name">${esc(t.name)}</b><small>Group ${esc(t.group)}${t.manager?" · "+esc(t.manager):""}</small></div><span class="pill">${members.length} PLAYER${members.length===1?"":"S"}</span></div><div id="team-players-${esc(t.id)}" class="team-player-details">${members.length?members.map(p=>`<div class="team-player-line"><span>${esc(p.name)}</span><b>${p.goals} goal${p.goals===1?"":"s"}</b></div>`).join(""):'<p class="hint">No players added for this team yet.</p>'}</div></div>`}).join("")||'<div class="empty">No teams added yet. Admin can add participating teams.</div>';document.getElementById("teamList").innerHTML=teams;
 let matches=db.matches.slice().sort((a,b)=>(a.date||"").localeCompare(b.date||""));document.getElementById("fixtureList").innerHTML=matches.map(cardMatch).join("")||'<div class="empty">Fixtures will appear here when published.</div>';document.getElementById("homeMatches").innerHTML=matches.filter(m=>m.status!=="completed").slice(0,3).map(cardMatch).join("")||'<div class="empty">No upcoming matches announced.</div>';document.getElementById("resultList").innerHTML=matches.filter(m=>m.status==="completed").map(cardMatch).join("")||'<div class="empty">No completed match results yet.</div>';
 let groups=[...new Set(db.teams.map(t=>t.group))].sort();document.getElementById("standingList").innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:13px"><h3>Group ${g}</h3><table class="table"><thead><tr><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead><tbody>${standings(g).map(r=>`<tr><td>${esc(r.name)}</td><td>${r.p}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td><td>${r.gf-r.ga}</td><td><b>${r.pts}</b></td></tr>`).join("")}</tbody></table></div>`).join("")||'<div class="empty">Standings will be calculated after teams and results are added.</div>';
 let ns=db.notices.map(n=>`<div class="card" style="margin-bottom:9px"><b>📢 Tournament Notice</b><p style="margin:7px 0">${esc(n.text)}</p><small class="hint">${dateText(n.date)}</small></div>`).join("")||'<div class="empty">No announcements yet.</div>';document.getElementById("noticeList").innerHTML=ns;document.getElementById("homeNotices").innerHTML=db.notices.slice(0,2).map(n=>`<div class="notice">${esc(n.text)}<div class="hint" style="margin-top:5px">${dateText(n.date)}</div></div>`).join("")||'<div class="hint">No announcements published.</div>';
-let opts=db.teams.map(t=>`<option value="${t.id}">${esc(t.name)} (Group ${t.group})</option>`).join("");["homeTeam","awayTeam"].forEach(id=>document.getElementById(id).innerHTML='<option value="">Select team</option>'+opts);document.getElementById("scoreMatch").innerHTML='<option value="">Select match</option>'+matches.map(m=>`<option value="${m.id}">${esc(team(m.home)?.name||"TBD")} vs ${esc(team(m.away)?.name||"TBD")} · ${m.status}</option>`).join("")
+updateFixtureTeamOptions();document.getElementById("scoreMatch").innerHTML='<option value="">Select match</option>'+matches.map(m=>`<option value="${m.id}">${esc(team(m.home)?.name||"TBD")} vs ${esc(team(m.away)?.name||"TBD")} · ${m.status}</option>`).join("")
 const playerOpts=db.teams.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join("");const playerTeam=document.getElementById("playerTeam");if(playerTeam)playerTeam.innerHTML='<option value="">Select team</option>'+playerOpts;
 const scorers=db.players.filter(p=>Number(p.goals)>0).sort((a,b)=>b.goals-a.goals||a.name.localeCompare(b.name));document.getElementById("topScorers").innerHTML=scorers.length?`<div class="card"><table class="table"><thead><tr><th>Rank</th><th>Player</th><th>Team</th><th>Goals</th></tr></thead><tbody>${scorers.map((p,i)=>`<tr><td>${i+1}</td><td><b>${esc(p.name)}</b></td><td>${esc(team(p.team)?.name||"Unknown team")}</td><td><b>${p.goals}</b></td></tr>`).join("")}</tbody></table></div>`:'<div class="empty">Player goal records will appear here.</div>';
 // Admin management lists are rendered only after a verified admin login.
@@ -709,13 +787,28 @@ function renderMatchMoments() {
     if (empty) { empty.textContent = "Match photos will appear here soon."; empty.classList.remove("hidden"); }
   } else {
     if (empty) empty.classList.add("hidden");
-    const images = matchMoments.map(photo => `<div class="moment-item"><img src="${esc(photo.url)}" alt="Knight Football match moment" loading="lazy"></div>`).join("");
+    const images = matchMoments.map(photo => `<div class="moment-item"><img src="${esc(photo.url)}" alt="Knight Football match moment" loading="lazy" onclick="event.stopPropagation();openMomentLightbox(this.src)"></div>`).join("");
     track.innerHTML = images + images;
   }
   if (adminList && isAdmin) {
     adminList.innerHTML = matchMoments.map(photo => `<div class="moment-admin-item"><img src="${esc(photo.url)}" alt="Match photo"><button type="button" onclick="deleteMatchMoment('${encodeURIComponent(photo.name)}')" title="Delete photo" aria-label="Delete photo">×</button></div>`).join("") || '<p class="hint">No match photos uploaded yet.</p>';
   }
 }
+
+let momentZoom=1,momentTouchStartDistance=0,momentTouchStartZoom=1;
+function applyMomentZoom(){const image=document.getElementById("momentLightboxImage"),label=document.getElementById("momentZoomLabel");if(image)image.style.transform=`scale(${momentZoom})`;if(label)label.textContent=Math.round(momentZoom*100)+"%";}
+function openMomentLightbox(url){const modal=document.getElementById("momentLightbox"),image=document.getElementById("momentLightboxImage");if(!modal||!image)return;image.src=url;momentZoom=1;applyMomentZoom();modal.classList.add("open");document.body.style.overflow="hidden";}
+function closeMomentLightbox(){const modal=document.getElementById("momentLightbox");if(!modal)return;modal.classList.remove("open");document.body.style.overflow="";}
+function changeMomentZoom(delta){momentZoom=Math.min(4,Math.max(1,Number((momentZoom+delta).toFixed(2))));applyMomentZoom();}
+function resetMomentZoom(){momentZoom=1;applyMomentZoom();}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMomentLightbox();});
+document.addEventListener("DOMContentLoaded",()=>{
+ const wrap=document.getElementById("momentLightboxWrap");if(!wrap)return;
+ wrap.addEventListener("wheel",e=>{if(!document.getElementById("momentLightbox").classList.contains("open"))return;e.preventDefault();changeMomentZoom(e.deltaY<0?.15:-.15);},{passive:false});
+ wrap.addEventListener("touchstart",e=>{if(e.touches.length===2){const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;momentTouchStartDistance=Math.hypot(dx,dy);momentTouchStartZoom=momentZoom;}},{passive:true});
+ wrap.addEventListener("touchmove",e=>{if(e.touches.length===2&&momentTouchStartDistance>0){e.preventDefault();const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;momentZoom=Math.min(4,Math.max(1,momentTouchStartZoom*Math.hypot(dx,dy)/momentTouchStartDistance));applyMomentZoom();}},{passive:false});
+ wrap.addEventListener("touchend",()=>{momentTouchStartDistance=0;});
+});
 
 async function uploadMatchMoments() {
   if (!isAdmin || !currentUser) return alert("Admin login required.");
